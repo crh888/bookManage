@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+// import axios from 'axios'
 import App from './App.vue'
 
 // 导入路由模块
@@ -20,7 +21,6 @@ import 'vant/es/dialog/style';
 import 'vant/es/notify/style';
 // ImagePreview
 import 'vant/es/image-preview/style';
-
 
 const app = createApp(App)
 

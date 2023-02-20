@@ -9,7 +9,5 @@ export default {
 </script>
 
 <style lang="less">
-div {
-  color: @color;
-}
+
 </style>
