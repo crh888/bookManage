@@ -5,7 +5,7 @@ import { closeToast, showToast } from 'vant'
 
 export const instanceCommon: AxiosInstance = axios.create({
   baseURL: 'https://api.1crh.cn/bookserver/',
-  timeout: 7000,
+  timeout: 9000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
   }
@@ -20,7 +20,7 @@ instanceCommon.interceptors.request.use((config: InternalAxiosRequestConfig) => 
   return config
 })
 
-instanceCommon.interceptors.response.use((res: AxiosResponse) => {
+instanceCommon.interceptors.response.use((res: any) => {
   closeToast()
   return res.data
 })

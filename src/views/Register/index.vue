@@ -1,5 +1,5 @@
 <template>
-<div class="reg-container flex flex-col justify-center items-center w-screen h-screen">
+<div class="reg-container flex flex-col justify-center w-screen h-screen">
   <!-- LOGO -->
   <div class="flex mb-2 bg-white rounded-lg overflow-hidden ml-4 mr-4">
     <img src="@/assets/images/register.png" class="register-pic w-full h-full">
@@ -29,7 +29,7 @@
       type="password"
       label="确认密码"
       placeholder="再次输入密码"
-      :rules="[{ validator: validatorMessage }]"
+      :rules="[{ validator: validatorMessage }] as any"
     />
      <van-field
     v-model="code"
@@ -52,11 +52,7 @@
   </div>
 </van-form>
 <!-- 跳转登录页面 -->
-<div class="to-login w-full text-right text-cyan-700 mr-4"
-  @click="toLogin"
->
-  已有账号？点击登录
-</div>
+<Move desc="已有帐号？点击登录" msg="正在跳转至登录页面" route="/login"></Move>
 </div>
 </template>
 
@@ -66,6 +62,7 @@ import { closeToast, showLoadingToast, showToast } from 'vant';
 import type { FormInstance } from 'vant'
 import { httpRegister, registerHttp } from "@/utils/http/login_register/register";
 import { useRouter } from 'vue-router';
+import Move from '@/components/Move.vue'
 const account = ref('');
 const password = ref('');
 const rePassword = ref('');
@@ -88,7 +85,7 @@ const router = useRouter()
 
 // 判断两次输入的密码是否相同
 const validatorMessage = (val: string) => {
-  if (val !== password.value) return '两次密码不相同'
+  if (val && password && val !== password.value) return '两次密码不相同'
 }
 
 // 当填写完密码和验证码，将 isSubmit 设置为 false
@@ -172,7 +169,7 @@ const registerHandle = async () => {
 const toLogin = () => {
   showToast({
       type: 'loading',
-      message: '正在为您自动跳转至登录页面',
+      message: '正在跳转至登录页面',
       duration: 1500
     })
     setTimeout(() => {
