@@ -1,5 +1,5 @@
 <template>
-<div class="reg-container flex flex-col justify-center items-center w-screen h-screen ">
+<div class="reg-container flex flex-col justify-center items-center w-screen h-screen">
   <!-- LOGO -->
   <div class="flex mb-2 bg-white rounded-lg overflow-hidden ml-4 mr-4">
     <img src="@/assets/images/register.png" class="register-pic w-full h-full">
@@ -45,7 +45,7 @@
     </template>
   </van-field>
   </van-cell-group>
-  <div style="margin: 16px;">
+  <div style="margin: 4.2667vw;">
     <van-button round block type="primary" native-type="submit" :disabled="isSubmit" @click="registerHandle">
       注册
     </van-button>
@@ -64,7 +64,7 @@
 import { nextTick, onMounted, ref, watchEffect } from 'vue';
 import { closeToast, showLoadingToast, showToast } from 'vant';
 import type { FormInstance } from 'vant'
-import { httpRegister, registerHttp } from "@/utils/http/register";
+import { httpRegister, registerHttp } from "@/utils/http/login_register/register";
 import { useRouter } from 'vue-router';
 const account = ref('');
 const password = ref('');
@@ -113,18 +113,8 @@ const getCode = async () => {
   // 将按钮禁用
   isGetCode.value = true
 
-  showToast({
-    type: 'loading',
-    message: '正在发送验证码',
-    duration: 7000,
-    forbidClick: true
-  })
-
   // 发送 Ajax 请求
   const res = await registerHttp(account.value)
-
-  // 当请求发送完成后关闭加载提示框
-  closeToast()
 
   if (res.status !== 0) return showToast({
       message: '验证码发送失败，请稍后再试！',
@@ -152,15 +142,11 @@ const getCode = async () => {
   
 }
 
+
 // 提交注册
 const registerHandle = async () => {
   try {
-    showToast({
-      type: 'loading',
-      message: '正在注册'
-    })
     const res = await httpRegister(account.value, password.value, code.value, codeSecret.value)
-    closeToast()
     if (res.status !== 0) return showToast({
       type: 'fail',
       message: res.msg
@@ -168,6 +154,7 @@ const registerHandle = async () => {
     showToast({
       type: 'success',
       message: '注册成功，为您自动跳转至登录页面',
+      forbidClick: true,
       duration: 1500
     })
     setTimeout(() => {
@@ -192,8 +179,6 @@ const toLogin = () => {
     router.push('/login')
     }, 1500);
 }
-
-
 
 </script>
 

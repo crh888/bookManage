@@ -5,7 +5,7 @@ import { instanceCommon as http } from './index'
   @account: 邮箱号码
 */
 export const registerHttp = async (account: string) => {
-  const {data: res} = await http.post('api/getvercode', { account })
+  const res = await http.post('api/getvercode', { account })
   return res
   
 }
