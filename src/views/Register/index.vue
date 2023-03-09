@@ -59,7 +59,7 @@
 <script lang="ts" setup>
 import { nextTick, onMounted, ref, watchEffect } from 'vue';
 import { closeToast, showLoadingToast, showToast } from 'vant';
-import type { FormInstance } from 'vant'
+import type { AxiosRes } from '@/utils/http/types'
 import { httpRegister, registerHttp } from "@/utils/http/login_register/register";
 import { useRouter } from 'vue-router';
 import Move from '@/components/Move.vue'
@@ -143,7 +143,7 @@ const getCode = async () => {
 // 提交注册
 const registerHandle = async () => {
   try {
-    const res = await httpRegister(account.value, password.value, code.value, codeSecret.value)
+    const res: AxiosRes = await httpRegister(account.value, password.value, code.value, codeSecret.value)
     if (res.status !== 0) return showToast({
       type: 'fail',
       message: res.msg

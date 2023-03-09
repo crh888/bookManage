@@ -9,7 +9,7 @@ import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 const router = useRouter()
 defineProps(['desc', 'msg', 'route'])
-const moveTo = (msg, route) => {
+const moveTo = (msg: string, route:any) => {
   showToast({
     type: 'loading',
     duration: 700,

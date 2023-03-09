@@ -4,9 +4,77 @@ import { createRouter, createWebHashHistory, RouterOptions, Router, RouteRecordR
 //RouterRecordRaw是路由组件对象
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/home' },
-  { path: '/home', name: 'Home', component: () => import('@/views/Home/index.vue') },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('@/views/Home/index.vue'),
+    redirect: '/home/panel',
+    children: [
+      {
+        path: 'panel',
+        name: 'Panel',
+        component: () => import('@/views/Panel/index.vue'),
+        meta: {
+          title: '首页',
+          icon: 'wap-home-o'
+        }
+      },
+      {
+        path: 'borrow',
+        name: 'Borrow',
+        component: () => import('@/views/Borrow/index.vue'),
+        meta: {
+          title: '借阅',
+          icon: 'search'
+        }
+      },
+      {
+        path: 'my',
+        name: 'My',
+        component: () => import('@/views/My/index.vue'),
+        meta: {
+          title: '我的',
+          icon: 'user-circle-o'
+        }
+      },
+    ]
+  },
   { path: '/login', name: 'Login', component: () => import('@/views/Login/index.vue') },
-  { path: '/register', name: 'Register', component: () => import('@/views/Register/index.vue') }
+  { path: '/register', name: 'Register', component: () => import('@/views/Register/index.vue') },
+  {
+    path: '/updatepwd',
+    name: 'UpdatePwd',
+    component: import('@/views/UpdatePwd/index.vue'),
+    meta: {
+      title: '修改密码'
+    }
+  },
+  {
+    path: '/userinfo',
+    name: 'userinfo',
+    component: () => import('@/views/Userinfo/index.vue'),
+    meta: {
+      title: '个人资料'
+    }
+  },
+  {
+    path: '/history',
+    name: 'history',
+    component: () => import('@/views/BorrowHistory/index.vue'),
+    meta: {
+      title: '借阅历史'
+    }
+  },
+  {
+    path: '/borrowstatus',
+    name: 'borrowstatus',
+    component: import('@/views/BorrowStatus/index.vue'),
+    meta: {
+      title: '我的借阅'
+    }
+
+  },
+  { path: '/:pathMatch(.*)', component: () => import('@/views/ErrorPage/index.vue') }
 ]
 
 // RouterOptions是路由选项类型

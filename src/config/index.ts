@@ -1,0 +1,1 @@
+export const baseUrl = 'https://api.1crh.cn/bookserver/' // 服务器根路径

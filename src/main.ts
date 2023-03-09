@@ -11,8 +11,11 @@ import { createPinia } from "pinia";
 // 导入tailwindcss
 import '@/assets/css/style.css'
 
+// 导入字体图标
+import '@/assets/css/iconfont.css'
+
 // 导入 vant 部分组件的样式
-import { showToast, showDialog, showNotify, showImagePreview } from 'vant';
+// import { showToast, showDialog, showNotify, showImagePreview, Popup} from 'vant';
 // Toast
 import 'vant/es/toast/style';
 // Dialog
@@ -21,6 +24,7 @@ import 'vant/es/dialog/style';
 import 'vant/es/notify/style';
 // ImagePreview
 import 'vant/es/image-preview/style';
+
 
 const app = createApp(App)
 
