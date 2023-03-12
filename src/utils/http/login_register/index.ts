@@ -1,10 +1,11 @@
 import axios from 'axios'
 import type { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 import { closeToast, showToast } from 'vant'
+import { baseUrl } from '@/config/index'
 
 
 export const instanceCommon: AxiosInstance = axios.create({
-  baseURL: 'https://api.1crh.cn/bookserver/',
+  baseURL: baseUrl,
   timeout: 9000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'

@@ -1,7 +1,9 @@
 import axios from 'axios'
+import type { InternalAxiosRequestConfig } from 'axios'
+import { baseUrl } from '@/config'
 
 const instance_img = axios.create({
-  baseURL: 'https://api.1crh.cn/bookserver/',
+  baseURL: baseUrl,
   timeout: 9000,
   headers: {
     'Content-Type': 'multipart/form-data',
@@ -10,12 +12,22 @@ const instance_img = axios.create({
 })
 
 const instance_upd = axios.create({
-  baseURL: 'https://api.1crh.cn/bookserver/',
+  baseURL: baseUrl,
   timeout: 9000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
     'Authorization': JSON.parse(localStorage.getItem('token')!)
   }
+})
+
+instance_upd.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  config.headers['Authorization'] = JSON.parse(localStorage.getItem('token')!)
+  return config
+})
+
+instance_img.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  config.headers['Authorization'] = JSON.parse(localStorage.getItem('token')!)
+  return config
 })
 
 // 上传头像

@@ -61,9 +61,9 @@ await getCateList().then(res => {
 
 })
 const onClickButton = async () => {
-  fieldValue.value = ''
   const res = await getBookByName(value.value) 
   if (res.status !== 0) return showFailToast('获取图书失败')
+  fieldValue.value = ''
   // 将输入存入pinia
   bookInfoStore.bookList = res.data
 

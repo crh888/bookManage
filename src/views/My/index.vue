@@ -4,7 +4,7 @@
     <div class="avatar-container flex items-center justify-between bg-white rounded-md pl-4 pr-4 mt-2 p-2" @click="toMyInfo">
       <!-- 头像 -->
       <div class="avatar w-20 h-20 rounded-lg overflow-hidden">
-        <img :src="selfInfo.avatar ? selfInfo.avatar : 'src/assets/images/avatar.jpeg'" alt="avatar" class="w-full h-full">
+        <img :src="selfInfo.avatar ? selfInfo.avatar : avatarImg" alt="avatar" class="w-full h-full">
       </div>
       <!-- 昵称 -->
       <div class="nickname text-xl">
@@ -42,6 +42,8 @@ import { storeToRefs } from 'pinia'
 import { useAboutUser } from '@/store/user'
 import { getUserInfo } from '@/utils/http/userinfo/index'
 import { showConfirmDialog, showFailToast } from 'vant';
+// 引入静态资源
+import avatarImg from '@/assets/images/avatar.jpeg'
 const userStore = useAboutUser()
 const router = useRouter()
 const { selfInfo } = storeToRefs(userStore)

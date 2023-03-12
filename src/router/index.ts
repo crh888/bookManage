@@ -29,6 +29,15 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'manage',
+        name: 'manage',
+        component: () => import('@/views/Admin/index.vue'),
+        meta: {
+          title: '管理',
+          icon: 'ellipsis'
+        }
+      },
+      {
         path: 'my',
         name: 'My',
         component: () => import('@/views/My/index.vue'),
@@ -44,7 +53,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/updatepwd',
     name: 'UpdatePwd',
-    component: import('@/views/UpdatePwd/index.vue'),
+    component: () => import('@/views/UpdatePwd/index.vue'),
     meta: {
       title: '修改密码'
     }
@@ -68,12 +77,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/borrowstatus',
     name: 'borrowstatus',
-    component: import('@/views/BorrowStatus/index.vue'),
+    component: () => import('@/views/BorrowStatus/index.vue'),
     meta: {
       title: '我的借阅'
     }
-
   },
+  
   { path: '/:pathMatch(.*)', component: () => import('@/views/ErrorPage/index.vue') }
 ]
 

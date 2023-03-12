@@ -14,6 +14,7 @@ export default defineConfig({
       resolvers: [VantResolver()],
     })
   ],
+  base: './',
   resolve: { 
     // 配置@的根路径为src
     alias: {
