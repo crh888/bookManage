@@ -8,10 +8,8 @@
     </van-tabbar>
 
     <van-tabbar v-model="active" route v-else>
-      <van-tabbar v-model="active" route>
       <van-tabbar-item :icon="item.meta?.icon as string" :to="'/home/' + item.path" v-for="(item, index) in tabList" :key="index"
       >{{item.meta?.title}}</van-tabbar-item>
-    </van-tabbar>
     </van-tabbar>
     
   </div>
@@ -30,7 +28,6 @@ const tabList = router.options.routes[1].children
 const tabList2 = router.options.routes[1].children?.filter(x => 
   x.path !== 'manage'
 )
-console.log(tabList2);
 
 
 
