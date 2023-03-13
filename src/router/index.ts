@@ -8,17 +8,8 @@ const routes: RouteRecordRaw[] = [
     path: '/home',
     name: 'Home',
     component: () => import('@/views/Home/index.vue'),
-    redirect: '/home/panel',
+    redirect: '/home/borrow',
     children: [
-      {
-        path: 'panel',
-        name: 'Panel',
-        component: () => import('@/views/Panel/index.vue'),
-        meta: {
-          title: '首页',
-          icon: 'wap-home-o'
-        }
-      },
       {
         path: 'borrow',
         name: 'Borrow',
@@ -48,8 +39,12 @@ const routes: RouteRecordRaw[] = [
       },
     ]
   },
-  { path: '/login', name: 'Login', component: () => import('@/views/Login/index.vue') },
-  { path: '/register', name: 'Register', component: () => import('@/views/Register/index.vue') },
+  {
+    path: '/login', name: 'Login', component: () => import('@/views/Login/index.vue')
+  },
+  {
+    path: '/register', name: 'Register', component: () => import('@/views/Register/index.vue')
+  },
   {
     path: '/updatepwd',
     name: 'UpdatePwd',
@@ -82,8 +77,27 @@ const routes: RouteRecordRaw[] = [
       title: '我的借阅'
     }
   },
-  
-  { path: '/:pathMatch(.*)', component: () => import('@/views/ErrorPage/index.vue') }
+   {
+    path: '/editbook/:id',
+    name: 'editbook',
+    component: () => import('@/views/EditBook/index.vue'),
+    meta: {
+      title: '修改图书信息'
+    },
+    props: true
+  },
+  {
+    path: '/addbook',
+    name: 'addbook',
+    component: () => import('@/views/AddBook/index.vue'),
+    meta: {
+      title: '添加图书'
+    }
+  },
+  {
+    path: '/:pathMatch(.*)', component: () => import('@/views/ErrorPage/index.vue')
+  }
+ 
 ]
 
 // RouterOptions是路由选项类型
@@ -94,5 +108,19 @@ const options: RouterOptions = {
 
 // Router是路由对象类型
 const router: Router = createRouter(options)
+
+// 全局导航前置守卫
+router.beforeEach((to, from, next)=> {
+  if (to.path !== '/register' && to.path !== '/login') {
+    const token = localStorage.getItem('token')
+    if (token) {
+      next()
+    } else {
+      next('/login')
+    }
+  } else {
+    next()
+  }
+})
 
 export default router

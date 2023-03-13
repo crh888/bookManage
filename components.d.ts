@@ -7,7 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BookForm: typeof import('./src/components/BookForm.vue')['default']
     BookList: typeof import('./src/components/BookList.vue')['default']
+    BookManage: typeof import('./src/components/bookManage.vue')['default']
     Move: typeof import('./src/components/Move.vue')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -16,13 +18,11 @@ declare module '@vue/runtime-core' {
     Tabbar: typeof import('./src/components/Tabbar.vue')['default']
     VanBackTop: typeof import('vant/es')['BackTop']
     VanButton: typeof import('vant/es')['Button']
-    VanCard: typeof import('vant/es')['Card']
     VanCellGroup: typeof import('vant/es')['CellGroup']
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanDialog: typeof import('vant/es')['Dialog']
     VanEmpty: typeof import('vant/es')['Empty']
     VanField: typeof import('vant/es')['Field']
-    VanFiled: typeof import('vant/es')['Filed']
     VanForm: typeof import('vant/es')['Form']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanPicker: typeof import('vant/es')['Picker']

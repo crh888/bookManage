@@ -7,8 +7,55 @@
         @updateAffairList="updateList"
        />
     </van-tab>
-    <van-tab title="图书管理">图书管理</van-tab>
-    <van-tab title="用户管理">
+    <van-tab title="图书管理">
+      <van-tabs v-model:active="active2">
+        <van-tab title="图书分类管理">
+          <!-- 添加分类 -->
+          <van-field 
+            label="添加分类"
+            is-link
+            readonly
+            @click="onToAddCate"
+          />
+          <!-- 添加分类对话框 -->
+          <van-dialog v-model:show="show" title="添加分类" show-cancel-button
+           @confirm="onAddCate"
+          >
+          <van-field readonly />
+          <van-field 
+            v-model="cateName"
+            is-link
+            readonly
+            label="分类名称"
+          />
+          <van-field readonly />
+        </van-dialog>
+          <!-- 分类列表 -->
+          <van-swipe-cell v-for="item in cateList
+          " :key="item.category_id">
+            <div class="cate-container flex justify-between bg-white pl-4 pr-4 mt-1 text-lg">
+              <div class="id flex flex-col justify-center items-center">
+                <p class="text-gray-500">ID</p>
+                <span class="text-base">{{ item.category_id }}</span>
+              </div>
+              <div class="cate flex flex-col justify-center items-center">
+                <p class="text-gray-500">分类名</p>
+                <span class="text-base">{{ item.category_name }}</span>
+              </div>
+            </div>
+            <template #right>
+            <van-button square type="danger" text="删除" class="!h-full" @click="onDeleteCate(item.category_id)" />
+          </template>
+          </van-swipe-cell>
+        </van-tab>
+        <van-tab title="图书信息管理">
+        <Search />  
+        <bookManageVue />
+        </van-tab>
+      </van-tabs>
+    </van-tab>
+    <van-tab title="用户管理" v-if="userStore.userinfo.identity === 2"
+    >
       <!-- 搜索 -->
       <van-search
       v-model="value"
@@ -144,11 +191,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import BookList from '@/components/BookList.vue';
+import Search from '@/components/Search.vue';
+import bookManageVue from '@/components/bookManage.vue';
 import { agreeList } from '@/utils/http/affair';
 import { showConfirmDialog, showFailToast, showSuccessToast } from 'vant';
-import{ addUser, alterPermisson, deleteUser, retrievePwd, selectUser } from '@/utils/http/user/index'
+import { addUser, alterPermisson, deleteUser, retrievePwd, selectUser } from '@/utils/http/user/index'
+import { getCateList, delCate, addCate } from '@/utils/http/book';
+import { useAboutUser } from '@/store/user';
+const userStore = useAboutUser()
+const show = ref(false)
+const cateName = ref('')
 const active = ref(0)
+const active2 = ref(0)
 const agreeLists = ref([])
+const cateList: any = ref([])
 const value = ref('')
 const accountInfo: any = ref({})
 const isShow = ref(false)
@@ -192,6 +248,12 @@ const identityText2 = computed(() => {
   }
 })
 
+// 获取所有分类信息
+await getCateList().then((res) => {
+  if (res.status !== 0) return showFailToast('获取图书分类失败')
+  cateList.value = res.data
+
+})
 // 获取借阅请求的列表
 await agreeList().then(res => {
   if (res.status !== 0) return showFailToast('获取信息失败')
@@ -258,9 +320,11 @@ const onConfirmPermisson = async () => {
   if (res.status !== 0) return showFailToast('修改用户权限失败')
   showSuccessToast('修改用户权限成功')
   identity.value = 0
-  const select = await selectUser(accountInfo.value.account)
-  if (select.status !== 0) return
-  accountInfo.value = select.data
+  setTimeout(async () => {
+    const select = await selectUser(accountInfo.value.account)
+    if (select.status !== 0) return accountInfo.value = {}
+    accountInfo.value = select.data
+  }, 700);
 }
 
 // 删除用户
@@ -287,7 +351,41 @@ const resetPwd = async () => {
 // 设置权限
 const onSetPermisson = () => {
   isShowPermisson.value = true
-  // TODO对逻辑进行编写
+}
+
+// 新增分类
+const onToAddCate = () => {
+  show.value = true
+}
+
+// 删除分类
+const onDeleteCate = (id: number) => {
+  showConfirmDialog({
+    title: '删除分类',
+    message: `您确定要删除此分类吗`,
+  }).then(async () => {
+    const res = await delCate(id)
+    if (res.status !== 0) return showFailToast('删除分类失败')
+    showSuccessToast('删除分类成功')
+    setTimeout(async () => {
+    const agaRes = await getCateList()
+    if (agaRes.status !== 0) return 
+    cateList.value = agaRes.data
+    }, 700);
+  })
+}
+
+// 确认新增分类
+const onAddCate = async () => {
+  if (cateName.value === '') return showFailToast('分类名不能为空')
+  const res = await addCate(cateName.value)
+  if (res.status !== 0) return showFailToast('添加分类失败')
+  showSuccessToast('添加分类名成功')
+  setTimeout(async () => {
+    const agaRes = await getCateList()
+    if (agaRes.status !== 0) return
+    cateList.value = agaRes.data
+  }, 700);
 }
 
 </script>

@@ -13,7 +13,7 @@
         name="邮箱"
         label="邮箱"
         placeholder="邮箱"
-        :rules="[{ required: true, message: '请填写用户名' }]"
+        :rules="[{ pattern: pattern_email, message: '请输入正确格式的邮箱号码' }]"
       />
       <van-field
         v-model="password"
@@ -21,7 +21,7 @@
         name="密码"
         label="密码"
         placeholder="密码"
-        :rules="[{ required: true, message: '请填写密码' }]"
+        :rules="[{ pattern: pattern_pwd, message: '必须包含大小写字母和数字，长度9-16位' }]"
       />
     </van-cell-group>
     <div style="margin: 16px;">
@@ -29,7 +29,7 @@
         登录
       </van-button>
     </div>
-    <div style="margin: 16px;" @click="() => isForget = true">
+    <div style="margin: 16px;" @click="forgetPassword">
       <van-button round block type="warning" native-type="submit">
         忘记密码
       </van-button>
@@ -101,7 +101,7 @@
   import { showFailToast, showSuccessToast, showToast } from 'vant'
 import { useAboutUser } from '@/store/user'
   import { registerHttp, retriPwd } from '@/utils/http/login_register/register'
-import { AxiosResponse } from 'axios'
+import { AxiosRes } from '@/utils/http/types'
   const account = ref('')
 const password = ref('')
 const getCodeText = ref('获取验证码')
@@ -123,14 +123,21 @@ let sec  = 60 // 定义秒数
 const router = useRouter()
   const userStore = useAboutUser()
 
+// 切换到找回密码
+const forgetPassword = () => {
+  isForget.value = true
+  account.value = ''
+  password.value = ''
+}
+
   // 登录
   const onSubmit = async (values: any) => {
  try {
-   const res = await loginHttp(account.value, password.value)
+   const res: AxiosRes = await loginHttp(account.value, password.value)
    
    if (res.status !== 0) return showToast({
     type: 'fail',
-    message: '登录失败'
+    message: res.msg
    })
    // 将身份信息存储到pinia
    userStore.userinfo = res.data

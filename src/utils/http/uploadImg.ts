@@ -45,3 +45,11 @@ export async function updateAvatar(avatar: string) {
   })
   return res
 }
+
+// 上传图书封面
+export const uploadCover = async (cover: any) => {
+  const { data :res } = await instance_img.post('book/uploadcover', {
+    cover
+  })
+  return res
+}
