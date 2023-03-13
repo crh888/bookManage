@@ -24,8 +24,6 @@
           <van-field readonly />
           <van-field 
             v-model="cateName"
-            is-link
-            readonly
             label="分类名称"
           />
           <van-field readonly />
@@ -128,7 +126,7 @@
   </van-dialog>
   <!-- 用户列表 -->
   <van-swipe-cell class="mt-2">
-    <div class="user-container flex     justify-between pl-4 pr-4 bg-white"
+    <div class="user-container flex justify-between pl-4 pr-4 bg-white"
     v-if="Object.keys(accountInfo).length !== 0"
     >
       <div class="nickname">
