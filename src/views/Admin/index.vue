@@ -384,6 +384,7 @@ const onAddCate = async () => {
     if (agaRes.status !== 0) return
     cateList.value = agaRes.data
   }, 700);
+  cateName.value = ''
 }
 
 </script>
